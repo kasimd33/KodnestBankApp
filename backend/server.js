@@ -14,8 +14,8 @@ const app = express();
 // Connect to MongoDB
 connectDB();
 
-// Middleware
-app.use(cors()); // Allow frontend to communicate
+// Middleware - Allow frontend (Vercel, localhost)
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json()); // Parse JSON request body
 
 // Health check route
