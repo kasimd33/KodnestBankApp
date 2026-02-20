@@ -11,14 +11,19 @@ const connectDB = require("./config/db");
 // Initialize Express app
 const app = express();
 
-// Connect to MongoDB
-connectDB();
+// Middleware - CORS (allow all origins for Vercel/Render)
+app.use(cors({
+  origin: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
+}));
+app.use(express.json());
 
-// Middleware - Allow frontend (Vercel, localhost)
-app.use(cors({ origin: true, credentials: true }));
-app.use(express.json()); // Parse JSON request body
+// Root health check (Render pings this)
+app.get("/", (req, res) => res.json({ status: "OK", service: "KodnestBank API" }));
 
-// Health check route
+// API health check
 app.get("/api/health", (req, res) => {
   res.json({ status: "OK", message: "KodnestBank API is running" });
 });
@@ -43,7 +48,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+// Start server (connect DB first)
+async function start() {
+  await connectDB();
+  const PORT = process.env.PORT || 5000;
+  app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+}
+start().catch((err) => {
+  console.error("Failed to start:", err);
+  process.exit(1);
 });

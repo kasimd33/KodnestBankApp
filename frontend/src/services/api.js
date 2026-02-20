@@ -1,10 +1,15 @@
 /**
  * API Service - Axios-like fetch wrapper with JWT
- * Set VITE_API_URL in Vercel env vars for production (e.g. https://your-backend.onrender.com/api)
+ * Set VITE_API_URL in Vercel (e.g. https://kodnestbankapp.onrender.com)
+ * Trailing /api is added automatically if missing
  */
-const BASE = import.meta.env.DEV
-  ? "http://localhost:5000/api"
-  : (import.meta.env.VITE_API_URL || "/api");
+function getBaseUrl() {
+  if (import.meta.env.DEV) return "http://localhost:5000/api";
+  const url = import.meta.env.VITE_API_URL || "";
+  if (!url) return "/api";
+  return url.endsWith("/api") ? url : url.replace(/\/?$/, "") + "/api";
+}
+const BASE = getBaseUrl();
 
 function getAuthHeaders() {
   const token = localStorage.getItem("token");
