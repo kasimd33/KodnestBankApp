@@ -1,0 +1,11 @@
+# Netlify config for KodnestBank frontend
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+# SPA routing - all paths serve index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
