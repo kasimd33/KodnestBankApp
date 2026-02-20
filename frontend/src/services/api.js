@@ -1,12 +1,11 @@
 /**
  * API Service - Axios-like fetch wrapper with JWT
- * Set VITE_API_URL in Vercel (e.g. https://kodnestbankapp.onrender.com)
- * Trailing /api is added automatically if missing
+ * Production: uses Render backend. Override with VITE_API_URL in Netlify/Vercel env.
  */
+const RENDER_BACKEND = "https://kodnestbankapp.onrender.com";
 function getBaseUrl() {
   if (import.meta.env.DEV) return "http://localhost:5000/api";
-  const url = import.meta.env.VITE_API_URL || "";
-  if (!url) return "/api";
+  const url = import.meta.env.VITE_API_URL || RENDER_BACKEND;
   return url.endsWith("/api") ? url : url.replace(/\/?$/, "") + "/api";
 }
 const BASE = getBaseUrl();
