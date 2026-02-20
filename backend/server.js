@@ -48,13 +48,13 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server (connect DB first)
+// Start server after DB connects
 async function start() {
   await connectDB();
   const PORT = process.env.PORT || 5000;
   app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 }
 start().catch((err) => {
-  console.error("Failed to start:", err);
+  console.error("Failed to start:", err.message);
   process.exit(1);
 });

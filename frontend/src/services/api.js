@@ -21,6 +21,9 @@ function getAuthHeaders() {
 async function handleResponse(res) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
+    if (res.status === 502) {
+      throw new Error("Server is starting up. Please wait 30 seconds and try again.");
+    }
     throw new Error(data.message || "Request failed");
   }
   return data;
