@@ -1,10 +1,10 @@
 /**
  * API Service - Axios-like fetch wrapper with JWT
- * In dev, call backend directly to avoid proxy issues
+ * Set VITE_API_URL in Vercel env vars for production (e.g. https://your-backend.onrender.com/api)
  */
 const BASE = import.meta.env.DEV
   ? "http://localhost:5000/api"
-  : "/api";
+  : (import.meta.env.VITE_API_URL || "/api");
 
 function getAuthHeaders() {
   const token = localStorage.getItem("token");
