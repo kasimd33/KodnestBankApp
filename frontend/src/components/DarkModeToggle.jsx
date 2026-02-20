@@ -1,12 +1,14 @@
 /**
- * Dark Mode Toggle
+ * Dark Mode Toggle - Switch style theme changer
  * Toggles dark class on document for Tailwind dark mode
  */
 import { useEffect, useState } from "react";
 
 const DarkModeToggle = () => {
-  const [dark, setDark] = useState(
-    () => document.documentElement.classList.contains("dark")
+  const [dark, setDark] = useState(() =>
+    typeof document !== "undefined"
+      ? document.documentElement.classList.contains("dark")
+      : true
   );
 
   useEffect(() => {
@@ -18,12 +20,16 @@ const DarkModeToggle = () => {
   }, [dark]);
 
   return (
-    <button
-      onClick={() => setDark(!dark)}
-      className="px-4 py-2 bg-gray-800 text-white rounded-lg dark:bg-yellow-400 dark:text-black hover:opacity-90 transition"
-    >
-      {dark ? "☀ Light Mode" : "🌙 Dark Mode"}
-    </button>
+    <label className="inline-flex items-center gap-2 cursor-pointer select-none">
+      <input
+        type="checkbox"
+        className="theme-checkbox"
+        checked={dark}
+        onChange={(e) => setDark(e.target.checked)}
+      />
+      <span className="theme-toggle-switch" />
+      <span className="text-sm text-muted-foreground">{dark ? "Dark" : "Light"}</span>
+    </label>
   );
 };
 

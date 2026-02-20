@@ -34,65 +34,65 @@ export default function Register() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 flex items-center justify-center p-4">
-      <div className="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg w-full max-w-md">
-        <h1 className="text-2xl font-bold mb-6 text-center">Create Account</h1>
+    <div className="min-h-screen bg-background flex items-center justify-center p-4">
+      <div className="bg-card border border-border p-8 rounded-xl shadow-lg w-full max-w-md">
+        <h1 className="text-2xl font-bold mb-6 text-center text-foreground font-archivo">Create Account</h1>
         {error && (
-          <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 rounded">
+          <div className="mb-4 p-3 bg-destructive/10 text-destructive rounded">
             {error}
           </div>
         )}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-sm font-medium mb-1">Name</label>
+            <label className="block text-sm font-medium mb-1 text-foreground">Name</label>
             <input
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+              className="w-full px-4 py-2 border border-border bg-input rounded text-foreground"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Mobile No</label>
+            <label className="block text-sm font-medium mb-1 text-foreground">Mobile No</label>
             <input
               type="tel"
               value={mobile}
               onChange={(e) => setMobile(e.target.value)}
               placeholder="e.g. 9876543210"
-              className="w-full px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+              className="w-full px-4 py-2 border border-border bg-input rounded text-foreground"
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
+            <label className="block text-sm font-medium mb-1 text-foreground">Email</label>
             <input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+              className="w-full px-4 py-2 border border-border bg-input rounded text-foreground"
               required
             />
           </div>
           <div>
-            <label className="block text-sm font-medium mb-1">Password (min 6)</label>
+            <label className="block text-sm font-medium mb-1 text-foreground">Password (min 6)</label>
             <input
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+              className="w-full px-4 py-2 border border-border bg-input rounded text-foreground"
               required
             />
           </div>
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
+            className="w-full py-2 bg-primary text-primary-foreground rounded hover:opacity-90 disabled:opacity-50 transition"
           >
             {loading ? "Registering..." : "Register"}
           </button>
         </form>
-        <p className="mt-4 text-center text-sm">
-          Already have account? <Link to="/login" className="text-indigo-600 hover:underline">Login</Link>
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          Already have account? <Link to="/login" className="text-primary hover:underline">Login</Link>
         </p>
       </div>
     </div>

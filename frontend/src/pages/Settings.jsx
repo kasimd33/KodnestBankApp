@@ -32,13 +32,13 @@ export default function Settings() {
 
   return (
     <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Settings</h1>
+      <h1 className="text-2xl font-bold mb-6 text-foreground font-archivo">Settings</h1>
       {message.text && (
         <div
           className={`mb-4 p-3 rounded ${
             message.type === "error"
-              ? "bg-red-100 dark:bg-red-900/30 text-red-700"
-              : "bg-green-100 dark:bg-green-900/30 text-green-700"
+              ? "bg-destructive/10 text-destructive"
+              : "bg-[var(--chart-3)]/20 text-[var(--chart-3)]"
           }`}
         >
           {message.text}
@@ -46,32 +46,32 @@ export default function Settings() {
       )}
       <form
         onSubmit={handleSubmit}
-        className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl shadow"
+        className="space-y-4 bg-card border border-border p-6 rounded-xl shadow"
       >
         <div>
-          <label className="block text-sm font-medium mb-2">Name</label>
+          <label className="block text-sm font-medium mb-2 text-foreground">Name</label>
           <input
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+            className="w-full px-4 py-2 border border-border bg-input rounded text-foreground"
             required
           />
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2">Mobile No</label>
+          <label className="block text-sm font-medium mb-2 text-foreground">Mobile No</label>
           <input
             type="tel"
             value={mobile}
             onChange={(e) => setMobile(e.target.value)}
             placeholder="e.g. 9876543210"
-            className="w-full px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+            className="w-full px-4 py-2 border border-border bg-input rounded text-foreground"
           />
         </div>
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
+          className="w-full py-2 bg-primary text-primary-foreground rounded hover:opacity-90 disabled:opacity-50"
         >
           {loading ? "Saving..." : "Save Changes"}
         </button>

@@ -39,14 +39,14 @@ export default function AdminDashboard() {
 
   return (
     <div>
-      <h1 className="text-3xl font-bold mb-6">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold mb-6 text-foreground font-archivo">Admin Dashboard</h1>
 
-      <nav className="flex gap-4 mb-6 border-b dark:border-gray-600">
+      <nav className="flex gap-4 mb-6 border-b border-border">
         {["analytics", "customers", "accounts", "transactions"].map((t) => (
           <button
             key={t}
             onClick={() => setTab(t)}
-            className={`pb-2 px-2 capitalize ${tab === t ? "border-b-2 border-indigo-600" : ""}`}
+            className={`pb-2 px-2 capitalize text-foreground ${tab === t ? "border-b-2 border-primary text-primary" : ""}`}
           >
             {t}
           </button>
@@ -55,19 +55,19 @@ export default function AdminDashboard() {
 
       {tab === "analytics" && analytics && (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-          <div className="bg-indigo-500 text-white p-6 rounded-xl shadow">
+          <div className="bg-primary text-primary-foreground p-6 rounded-xl shadow">
             <h2 className="text-lg">Total Users</h2>
             <p className="text-2xl font-bold">{analytics.totalUsers}</p>
           </div>
-          <div className="bg-green-500 text-white p-6 rounded-xl shadow">
+          <div className="bg-[var(--chart-3)] text-white p-6 rounded-xl shadow">
             <h2 className="text-lg">Total Accounts</h2>
             <p className="text-2xl font-bold">{analytics.totalAccounts}</p>
           </div>
-          <div className="bg-blue-500 text-white p-6 rounded-xl shadow">
+          <div className="bg-[var(--chart-1)] text-white p-6 rounded-xl shadow">
             <h2 className="text-lg">Total Balance</h2>
             <p className="text-2xl font-bold">₹ {Number(analytics.totalBalance).toLocaleString()}</p>
           </div>
-          <div className="bg-purple-500 text-white p-6 rounded-xl shadow">
+          <div className="bg-[var(--chart-2)] text-white p-6 rounded-xl shadow">
             <h2 className="text-lg">Total Transactions</h2>
             <p className="text-2xl font-bold">{analytics.totalTransactions}</p>
           </div>
@@ -75,18 +75,18 @@ export default function AdminDashboard() {
       )}
 
       {tab === "customers" && (
-        <div className="bg-white dark:bg-gray-800 shadow rounded-xl overflow-x-auto">
+        <div className="bg-card border border-border shadow rounded-xl overflow-x-auto">
           <table className="min-w-full">
             <thead>
-              <tr className="border-b dark:border-gray-600">
+              <tr className="border-b border-border">
                 <th className="py-2 px-4 text-left">Name</th>
                 <th className="py-2 px-4 text-left">Email</th>
               </tr>
             </thead>
             <tbody>
               {customers.map((c) => (
-                <tr key={c._id} className="border-b dark:border-gray-600">
-                  <td className="py-2 px-4">{c.name}</td>
+                <tr key={c._id} className="border-b border-border">
+                  <td className="py-2 px-4 text-foreground">{c.name}</td>
                   <td className="py-2 px-4">{c.email}</td>
                 </tr>
               ))}
@@ -96,10 +96,10 @@ export default function AdminDashboard() {
       )}
 
       {tab === "accounts" && (
-        <div className="bg-white dark:bg-gray-800 shadow rounded-xl overflow-x-auto">
+        <div className="bg-card border border-border shadow rounded-xl overflow-x-auto">
           <table className="min-w-full">
             <thead>
-              <tr className="border-b dark:border-gray-600">
+              <tr className="border-b border-border">
                 <th className="py-2 px-4 text-left">Account</th>
                 <th className="py-2 px-4 text-left">Type</th>
                 <th className="py-2 px-4 text-left">Balance</th>
@@ -110,16 +110,16 @@ export default function AdminDashboard() {
             </thead>
             <tbody>
               {accounts.map((a) => (
-                <tr key={a._id} className="border-b dark:border-gray-600">
-                  <td className="py-2 px-4">{a.accountNumber}</td>
+                <tr key={a._id} className="border-b border-border">
+                  <td className="py-2 px-4 font-michroma">{a.accountNumber}</td>
                   <td className="py-2 px-4">{a.accountType}</td>
                   <td className="py-2 px-4">₹{Number(a.balance).toLocaleString()}</td>
                   <td className="py-2 px-4">
                     <span
                       className={`px-2 py-1 rounded text-sm ${
                         a.status === "active"
-                          ? "bg-green-100 text-green-700 dark:bg-green-900/30"
-                          : "bg-red-100 text-red-700 dark:bg-red-900/30"
+                          ? "bg-[var(--chart-3)]/20 text-[var(--chart-3)]"
+                          : "bg-destructive/20 text-destructive"
                       }`}
                     >
                       {a.status}
@@ -132,8 +132,8 @@ export default function AdminDashboard() {
                       disabled={actionLoading === a._id}
                       className={`px-3 py-1 rounded text-sm ${
                         a.status === "active"
-                          ? "bg-red-500 text-white hover:bg-red-600"
-                          : "bg-green-500 text-white hover:bg-green-600"
+                          ? "bg-destructive text-destructive-foreground hover:opacity-90"
+                          : "bg-[var(--chart-3)] text-white hover:opacity-90"
                       }`}
                     >
                       {a.status === "active" ? "Freeze" : "Unfreeze"}
@@ -150,14 +150,14 @@ export default function AdminDashboard() {
         <div className="space-y-4">
           <button
             onClick={() => downloadStatement(transactions)}
-            className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded hover:opacity-90"
           >
             Download PDF
           </button>
-          <div className="bg-white dark:bg-gray-800 shadow rounded-xl overflow-x-auto">
+          <div className="bg-card border border-border shadow rounded-xl overflow-x-auto">
             <table className="min-w-full">
               <thead>
-                <tr className="border-b dark:border-gray-600">
+                <tr className="border-b border-border">
                   <th className="py-2 px-4 text-left">Date</th>
                   <th className="py-2 px-4 text-left">Type</th>
                   <th className="py-2 px-4 text-left">Amount</th>
@@ -166,13 +166,13 @@ export default function AdminDashboard() {
               </thead>
               <tbody>
                 {transactions.map((t, i) => (
-                  <tr key={i} className="border-b dark:border-gray-600">
+                  <tr key={i} className="border-b border-border">
                     <td className="py-2 px-4">
                       {new Date(t.createdAt).toLocaleDateString()}
                     </td>
                     <td className="py-2 px-4 capitalize">{t.type}</td>
                     <td className="py-2 px-4">₹{Number(t.amount).toLocaleString()}</td>
-                    <td className="py-2 px-4">{t.accountId?.accountNumber || "-"}</td>
+                    <td className="py-2 px-4 font-michroma">{t.accountId?.accountNumber || "-"}</td>
                   </tr>
                 ))}
               </tbody>

@@ -27,7 +27,7 @@ const DashboardChart = ({ balance, deposits, withdrawals }) => {
 
   return (
     <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-      <h2 className="text-xl font-semibold mb-4">Account Overview</h2>
+      <h2 className="text-xl font-semibold mb-4 font-archivo">Account Overview</h2>
       <Bar data={data} options={{ responsive: true }} />
     </div>
   );

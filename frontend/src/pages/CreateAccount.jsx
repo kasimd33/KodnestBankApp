@@ -34,26 +34,26 @@ export default function CreateAccount() {
 
   return (
     <div className="max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-6">Create New Account</h1>
+      <h1 className="text-2xl font-bold mb-6 text-foreground font-archivo">Create New Account</h1>
       {error && (
-        <div className="mb-4 p-3 bg-red-100 dark:bg-red-900/30 text-red-700 rounded">
+        <div className="mb-4 p-3 bg-destructive/10 text-destructive rounded">
           {error}
         </div>
       )}
-      <form onSubmit={handleSubmit} className="space-y-4 bg-white dark:bg-gray-800 p-6 rounded-xl shadow">
+      <form onSubmit={handleSubmit} className="space-y-4 bg-card border border-border p-6 rounded-xl shadow">
         <div>
-          <label className="block text-sm font-medium mb-2">Account Type</label>
+          <label className="block text-sm font-medium mb-2 text-foreground">Account Type</label>
           <select
             value={accountType}
             onChange={(e) => setAccountType(e.target.value)}
-            className="w-full px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+            className="w-full px-4 py-2 border border-border bg-input rounded text-foreground"
           >
             <option value="Savings">Savings (Min ₹1,000)</option>
             <option value="Current">Current (Min ₹5,000)</option>
           </select>
         </div>
         <div>
-          <label className="block text-sm font-medium mb-2">
+          <label className="block text-sm font-medium mb-2 text-foreground">
             Initial Deposit (Min ₹{minAmount.toLocaleString()})
           </label>
           <input
@@ -62,7 +62,7 @@ export default function CreateAccount() {
             onChange={(e) => setInitialDeposit(e.target.value)}
             min={minAmount}
             step="100"
-            className="w-full px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+            className="w-full px-4 py-2 border border-border bg-input rounded text-foreground"
             placeholder={`₹${minAmount.toLocaleString()}`}
             required
           />
@@ -70,7 +70,7 @@ export default function CreateAccount() {
         <button
           type="submit"
           disabled={loading}
-          className="w-full py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
+          className="w-full py-2 bg-primary text-primary-foreground rounded hover:opacity-90 disabled:opacity-50"
         >
           {loading ? "Creating..." : "Create Account"}
         </button>

@@ -46,53 +46,56 @@ export default function ProfileDropdown() {
     <div className="relative" ref={dropdownRef}>
       <button
         onClick={() => setOpen(!open)}
-        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-gray-100 dark:bg-gray-700 hover:bg-gray-200 dark:hover:bg-gray-600 transition"
+        className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted hover:bg-secondary transition"
       >
-        <span className="w-8 h-8 rounded-full bg-indigo-500 flex items-center justify-center text-white font-semibold">
+        <span className="w-8 h-8 rounded-full bg-primary flex items-center justify-center text-primary-foreground font-semibold">
           {user.name?.charAt(0)?.toUpperCase() || "?"}
         </span>
-        <span className="hidden sm:inline text-sm font-medium">{user.name}</span>
-        <span className="text-gray-500">▼</span>
+        <span className="hidden sm:inline text-sm font-medium text-foreground">{user.name}</span>
+        <span className="text-muted-foreground">▼</span>
       </button>
 
       {open && (
-        <div className="absolute right-0 mt-2 w-72 bg-white dark:bg-gray-800 rounded-xl shadow-xl border dark:border-gray-700 py-3 z-50">
-          <div className="px-4 py-2 border-b dark:border-gray-600">
-            <p className="text-xs text-gray-500 dark:text-gray-400">Name</p>
-            <p className="font-semibold">{user.name}</p>
+        <div 
+          className="absolute right-0 mt-2 w-72 rounded-xl shadow-xl border border-border py-3 z-50"
+          style={{ backgroundColor: 'var(--card)' }}
+        >
+          <div className="px-4 py-2 border-b border-border">
+            <p className="text-xs text-muted-foreground">Name</p>
+            <p className="font-semibold text-foreground">{user.name}</p>
           </div>
           {user.role === "customer" ? (
             <>
-              <div className="px-4 py-2 border-b dark:border-gray-600">
-                <p className="text-xs text-gray-500 dark:text-gray-400">Account Number</p>
-                <p className="font-medium">{account?.accountNumber || "No account"}</p>
+              <div className="px-4 py-2 border-b border-border">
+                <p className="text-xs text-muted-foreground">Account Number</p>
+                <p className="font-medium text-foreground font-michroma">{account?.accountNumber || "No account"}</p>
               </div>
-              <div className="px-4 py-2 border-b dark:border-gray-600">
-                <p className="text-xs text-gray-500 dark:text-gray-400">Account Type</p>
-                <p className="font-medium">{account?.accountType || "-"}</p>
+              <div className="px-4 py-2 border-b border-border">
+                <p className="text-xs text-muted-foreground">Account Type</p>
+                <p className="font-medium text-foreground">{account?.accountType || "-"}</p>
               </div>
             </>
           ) : (
             <>
-              <div className="px-4 py-2 border-b dark:border-gray-600">
-                <p className="text-xs text-gray-500 dark:text-gray-400">Account Number</p>
-                <p className="font-medium">Admin</p>
+              <div className="px-4 py-2 border-b border-border">
+                <p className="text-xs text-muted-foreground">Account Number</p>
+                <p className="font-medium text-foreground">Admin</p>
               </div>
-              <div className="px-4 py-2 border-b dark:border-gray-600">
-                <p className="text-xs text-gray-500 dark:text-gray-400">Account Type</p>
-                <p className="font-medium">Administrator</p>
+              <div className="px-4 py-2 border-b border-border">
+                <p className="text-xs text-muted-foreground">Account Type</p>
+                <p className="font-medium text-foreground">Administrator</p>
               </div>
             </>
           )}
-          <div className="px-4 py-2 border-b dark:border-gray-600">
-            <p className="text-xs text-gray-500 dark:text-gray-400">Mobile No</p>
-            <p className="font-medium">{user.mobile || "Not set"}</p>
+          <div className="px-4 py-2 border-b border-border">
+            <p className="text-xs text-muted-foreground">Mobile No</p>
+            <p className="font-medium text-foreground">{user.mobile || "Not set"}</p>
           </div>
           <div className="px-4 pt-2">
             <Link
               to="/settings"
               onClick={() => setOpen(false)}
-              className="flex items-center gap-2 px-4 py-2 text-indigo-600 dark:text-indigo-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg"
+              className="flex items-center gap-2 px-4 py-2 text-primary hover:bg-accent rounded-lg transition"
             >
               ⚙️ Settings
             </Link>

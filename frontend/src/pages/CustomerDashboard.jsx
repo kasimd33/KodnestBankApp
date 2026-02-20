@@ -4,11 +4,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../services/api";
-import DashboardChart from "../components/DashboardChart";
+import AccountOverview from "../components/AccountOverview";
 import TransactionTable from "../components/TransactionTable";
 import { downloadStatement } from "../utils/downloadStatement";
 
 export default function CustomerDashboard() {
+  const user = JSON.parse(localStorage.getItem("user") || "{}");
+  const userName = user?.name || "User";
   const [accounts, setAccounts] = useState([]);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [transactions, setTransactions] = useState([]);
@@ -113,9 +115,9 @@ export default function CustomerDashboard() {
 
   if (!accounts.length) {
     return (
-      <div className="text-center py-8">
+      <div className="text-center py-8 text-foreground">
         <h2 className="text-xl mb-4">No accounts yet</h2>
-        <Link to="/create-account" className="text-indigo-600 hover:underline">
+        <Link to="/create-account" className="text-primary hover:underline">
           Create your first account
         </Link>
       </div>
@@ -124,14 +126,14 @@ export default function CustomerDashboard() {
 
   return (
     <div className="min-h-screen">
-      <h1 className="text-3xl font-bold mb-6">Welcome Back 👋</h1>
+      <h1 className="text-3xl font-bold mb-6 text-foreground font-archivo">Welcome Back {userName} 👋</h1>
 
       {message.text && (
         <div
           className={`mb-4 p-3 rounded ${
             message.type === "error"
-              ? "bg-red-100 dark:bg-red-900/30 text-red-700"
-              : "bg-green-100 dark:bg-green-900/30 text-green-700"
+              ? "bg-destructive/10 text-destructive"
+              : "bg-[var(--chart-3)]/20 text-[var(--chart-3)]"
           }`}
         >
           {message.text}
@@ -139,13 +141,13 @@ export default function CustomerDashboard() {
       )}
 
       <div className="mb-4">
-        <label className="block text-sm font-medium mb-2">Select Account</label>
+        <label className="block text-sm font-medium mb-2 text-foreground">Select Account</label>
         <select
           value={selectedAccount?._id || ""}
           onChange={(e) =>
             setSelectedAccount(accounts.find((a) => a._id === e.target.value))
           }
-          className="px-4 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+          className="px-4 py-2 border border-border bg-input rounded text-foreground"
         >
           {accounts.map((a) => (
             <option key={a._id} value={a._id}>
@@ -156,54 +158,54 @@ export default function CustomerDashboard() {
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <div className="bg-blue-500 text-white p-6 rounded-xl shadow-lg">
+        <div className="bg-primary text-primary-foreground p-6 rounded-xl shadow-lg">
           <h2 className="text-lg">Current Balance</h2>
           <p className="text-2xl font-bold mt-2">₹ {Number(balance).toLocaleString()}</p>
         </div>
-        <div className="bg-green-500 text-white p-6 rounded-xl shadow-lg">
+        <div className="bg-[var(--chart-3)] text-white p-6 rounded-xl shadow-lg">
           <h2>Total Deposits</h2>
           <p className="text-2xl font-bold mt-2">₹ {Number(totalDeposits).toLocaleString()}</p>
         </div>
-        <div className="bg-red-500 text-white p-6 rounded-xl shadow-lg">
+        <div className="bg-destructive text-destructive-foreground p-6 rounded-xl shadow-lg">
           <h2>Total Withdrawals</h2>
           <p className="text-2xl font-bold mt-2">₹ {Number(totalWithdrawals).toLocaleString()}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold mb-4">Deposit</h2>
+        <div className="bg-card border border-border p-6 rounded-xl shadow-lg">
+          <h2 className="text-lg font-semibold mb-4 text-foreground">Deposit</h2>
           <div className="flex gap-2">
             <input
               type="number"
               placeholder="Amount"
               value={depositAmount}
               onChange={(e) => setDepositAmount(e.target.value)}
-              className="flex-1 px-3 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+              className="flex-1 px-3 py-2 border border-border bg-input rounded text-foreground"
             />
             <button
               onClick={handleDeposit}
               disabled={actionLoading || selectedAccount?.status === "frozen"}
-              className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 disabled:opacity-50"
+              className="px-4 py-2 bg-[var(--chart-3)] text-white rounded hover:opacity-90 disabled:opacity-50"
             >
               {actionLoading === "deposit" ? "..." : "Deposit"}
             </button>
           </div>
         </div>
-        <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg">
-          <h2 className="text-lg font-semibold mb-4">Withdraw</h2>
+        <div className="bg-card border border-border p-6 rounded-xl shadow-lg">
+          <h2 className="text-lg font-semibold mb-4 text-foreground">Withdraw</h2>
           <div className="flex gap-2">
             <input
               type="number"
               placeholder="Amount"
               value={withdrawAmount}
               onChange={(e) => setWithdrawAmount(e.target.value)}
-              className="flex-1 px-3 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+              className="flex-1 px-3 py-2 border border-border bg-input rounded text-foreground"
             />
             <button
               onClick={handleWithdraw}
               disabled={actionLoading || selectedAccount?.status === "frozen"}
-              className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 disabled:opacity-50"
+              className="px-4 py-2 bg-destructive text-destructive-foreground rounded hover:opacity-90 disabled:opacity-50"
             >
               {actionLoading === "withdraw" ? "..." : "Withdraw"}
             </button>
@@ -211,34 +213,39 @@ export default function CustomerDashboard() {
         </div>
       </div>
 
-      <div className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-lg mb-6">
-        <h2 className="text-lg font-semibold mb-4">Transfer</h2>
+      <div className="bg-card border border-border p-6 rounded-xl shadow-lg mb-6">
+        <h2 className="text-lg font-semibold mb-4 text-foreground">Transfer</h2>
         <div className="flex flex-wrap gap-2">
           <input
             type="text"
             placeholder="To Account Number"
             value={transferTo}
             onChange={(e) => setTransferTo(e.target.value)}
-            className="px-3 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded"
+            className="px-3 py-2 border border-border bg-input rounded text-foreground"
           />
           <input
             type="number"
             placeholder="Amount"
             value={transferAmount}
             onChange={(e) => setTransferAmount(e.target.value)}
-            className="px-3 py-2 border dark:border-gray-600 dark:bg-gray-700 rounded w-32"
+            className="px-3 py-2 border border-border bg-input rounded w-32 text-foreground"
           />
           <button
             onClick={handleTransfer}
             disabled={actionLoading || selectedAccount?.status === "frozen"}
-            className="px-4 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700 disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-primary-foreground rounded hover:opacity-90 disabled:opacity-50"
           >
             {actionLoading === "transfer" ? "..." : "Transfer"}
           </button>
         </div>
       </div>
 
-      <DashboardChart balance={balance} deposits={totalDeposits} withdrawals={totalWithdrawals} />
+      <AccountOverview
+        balance={balance}
+        deposits={totalDeposits}
+        withdrawals={totalWithdrawals}
+        onViewReport={handleDownloadPDF}
+      />
 
       <TransactionTable transactions={transactions} onDownloadPDF={handleDownloadPDF} />
     </div>

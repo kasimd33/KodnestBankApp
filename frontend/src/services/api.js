@@ -21,9 +21,9 @@ function getAuthHeaders() {
 async function handleResponse(res) {
   const data = await res.json().catch(() => ({}));
   if (!res.ok) {
-    if (res.status === 502) {
-      throw new Error("Server is starting up. Please wait 30 seconds and try again.");
-    }
+    if (res.status === 502) throw new Error("Server starting. Wait 30 sec and try again.");
+    if (res.status === 503) throw new Error(data.message || "Server starting. Wait 15 sec and try again.");
+    if (res.status === 404) throw new Error(data.message || "Route not found. Check backend is deployed.");
     throw new Error(data.message || "Request failed");
   }
   return data;
